@@ -18,6 +18,17 @@ opciones.UseSqlServer("name=DefaultConnection")
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().
     AddEntityFrameworkStores<ApplicationDBContext>();
 
+var _MyCors = "MyCors";
+var HostFront = builder.Configuration.GetValue<string>("HostFront");
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: _MyCors, builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +41,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
+
+app.UseCors(_MyCors);
 
 app.UseAuthorization();
 
