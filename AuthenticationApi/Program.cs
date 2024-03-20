@@ -1,4 +1,5 @@
 using AuthenticationApi.Datos;
+using AuthenticationApi.DTOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +21,7 @@ builder.Services.AddIdentityApiEndpoints<IdentityUser>().
 
 var _MyCors = "MyCors";
 var HostFront = builder.Configuration.GetValue<string>("HostFront");
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 
 builder.Services.AddCors(options =>
 {
